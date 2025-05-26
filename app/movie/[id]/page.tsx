@@ -2,14 +2,13 @@ import { fetchMovieDetails } from "@/app/services/movieService";
 import Image from "next/image";
 import Link from "next/link";
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
 
 export default async function MoviePage({ params }: PageProps) {
-  const movie = await fetchMovieDetails(params.id);
+  const { id } = await params;
+  const movie = await fetchMovieDetails(id);
 
   if (!movie) {
     return (

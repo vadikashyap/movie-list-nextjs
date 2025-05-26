@@ -1,14 +1,15 @@
 import { Suspense } from "react";
 import { fetchMovies } from "./services/movieService";
 import MovieList from "./components/MovieList";
+import Image from "next/image";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: { query?: string };
-}) {
-  const query = await Promise.resolve(searchParams?.query || "");
-  const movies = await fetchMovies(1, query);
+type PageProps = {
+  searchParams: Promise<{ query?: string }>;
+};
+
+export default async function Home({ searchParams }: PageProps) {
+  const { query } = await searchParams;
+  const movies = await fetchMovies(1, query || "");
 
   return (
     <main className='min-h-screen bg-black text-white'>
@@ -17,10 +18,12 @@ export default async function Home({
         <div className='relative h-[60vh] w-full'>
           {movies.results[0] && (
             <div className='absolute inset-0'>
-              <img
+              <Image
                 src={`https://image.tmdb.org/t/p/original${movies.results[0].backdrop_path}`}
                 alt={movies.results[0].title}
-                className='w-full h-full object-cover'
+                fill
+                className='object-cover'
+                priority
               />
               <div className='absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent' />
             </div>
@@ -43,7 +46,9 @@ export default async function Home({
                 {query ? (
                   <>
                     <span>Search Results for</span>
-                    <span className='ml-2 text-red-600'>"{query}"</span>
+                    <span className='ml-2 text-red-600'>
+                      &ldquo;{query}&rdquo;
+                    </span>
                   </>
                 ) : (
                   "Popular Movies"
