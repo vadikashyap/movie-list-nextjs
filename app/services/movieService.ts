@@ -49,8 +49,6 @@ export const fetchMovies = async (
       url = `${BASE_URL}/movie/popular?api_key=${API_KEY}&page=${page}`;
     }
 
-    console.log("Fetching movies from:", url); // Debug log
-
     const response = await fetchWithRetry(url, {
       method: "GET",
       headers: {
@@ -71,8 +69,6 @@ export const fetchMovies = async (
 export const fetchMovieDetails = async (movieId: string): Promise<Movie> => {
   try {
     const url = `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`;
-
-    console.log("Fetching movie details from:", url); // Debug log
 
     const response = await fetchWithRetry(url, {
       method: "GET",
