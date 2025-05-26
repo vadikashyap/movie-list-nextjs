@@ -1,4 +1,3 @@
-import { Movie } from "../../types/movie";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchMovieDetails, getImageUrl } from "../../services/movieService";
